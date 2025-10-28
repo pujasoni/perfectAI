@@ -13,7 +13,7 @@ import { userAuth } from "./middlewares/authmiddleware";
 import { apiLimiter } from "./middlewares/rateLimiting";
 import { requestLogger, errorLogger, performanceLogger } from "./middlewares/logging";
 import { globalErrorHandler, notFoundHandler, validationErrorHandler, rateLimitErrorHandler } from "./middlewares/errorHandler";
-import { swaggerUiHandler, swaggerJson, apiHealthCheck } from "./middlewares/swagger";
+import { swaggerUiHandler, swaggerJson, apiHealthCheck, swaggerServe, swaggerDocs } from "./middlewares/swagger";
 import { createFileValidator, createMulterConfig, handleMulterError } from "./middlewares/fileValidation";
 import authRouter from "./routes/auth";
 import profileRouter from "./routes/profile";
@@ -101,8 +101,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// API Documentation routes
-app.get("/api-docs", swaggerUiHandler);
+// API Documentation routes (serve static assets correctly)
+app.use("/api-docs", (swaggerServe as unknown as any), (swaggerDocs as unknown as any));
 app.get("/api-docs.json", swaggerJson);
 app.get("/health", apiHealthCheck);
 

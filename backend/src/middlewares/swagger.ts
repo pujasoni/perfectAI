@@ -31,6 +31,7 @@ const swaggerUiOptions: swaggerUi.SwaggerUiOptions = {
 };
 
 // Swagger documentation middleware
+export const swaggerServe = swaggerUi.serve;
 export const swaggerDocs = swaggerUi.setup(swaggerSpec, swaggerUiOptions);
 
 // Swagger JSON endpoint
@@ -41,7 +42,6 @@ export const swaggerJson = (req: Request, res: Response, next: NextFunction): vo
 
 // Swagger UI endpoint
 export const swaggerUiHandler = (req: Request, res: Response, next: NextFunction): void => {
-  // Serve standard Swagger UI
   (swaggerDocs as any)(req, res, next);
 };
 
